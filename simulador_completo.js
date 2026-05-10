@@ -1,11 +1,4 @@
 let clientes = [];
-//{ cedula: "314143413",
-  //  nombre: "scar",
-    //apellido: "cor",
-    //correo: "dssdfs@",
-    //ingresos: 54,
-    //egresos: 36,
-  //}
 let creditos = [];
 
 let tasaInteres = 15;
@@ -20,6 +13,7 @@ function ocultarSecciones() {
   let seccion2 = recuperarElemento("parametros").classList.remove("activa");
   let seccion3 = recuperarElemento("credito").classList.remove("activa");
   let seccion4 = recuperarElemento("contacto").classList.remove("activa");
+  let seccion5 = recuperarElemento("listaCreditos").classList.remove("activa");
 }
 
 function mostrarSeccion(id) {
@@ -108,22 +102,22 @@ function pintarCliente() {
 }
 
 function buscarCliente(cedula) {
-  clienteSeleccionado = null;
+  let clienteEncontrado = null;
 
   for (let indice = 0; indice < clientes.length; indice++) {
     let clienteActual = clientes[indice];
 
     if (clienteActual.cedula === cedula) {
-      clienteSeleccionado = clienteActual;
+      clienteEncontrado = clienteActual;
       break;
     }
   }
 
-  return clienteSeleccionado
+  return clienteEncontrado;
 }
 
-function seleccionarCliente(cedulaSeleccionada) {
-  clienteSeleccionado = buscarCliente(cedulaSeleccionada);
+function seleccionarCliente(cedula) {
+  clienteSeleccionado = buscarCliente(cedula);
 
   if (clienteSeleccionado !== null) {
     mostrarTextoEnCaja("cedula", clienteSeleccionado.cedula);
@@ -255,14 +249,9 @@ function calcularCredito() {
 
   let mensaje = "";
 
-  resultadoCredito.classList.add(!estadoCredito ? "rechazado" : "aprobado");
+  resultadoCredito.classList.add(estadoCredito ? "aprobado" : "rechazado");
   mensaje = estadoCredito ? "Aprobado" : "Rechazado";
-
-  solicitarCredito.disabled=!estadoCredito
-
-  //if (estadoCredito) {
-    //solicitarCredito.disabled = false;
-  //}
+  solicitarCredito.disabled = !estadoCredito;
 
   cuotaCalculada = cuotaMensual;
   montoCalculado = montoCredito;
@@ -283,8 +272,6 @@ function calcularCredito() {
 
   resultadoCredito.innerHTML = contenedor;
 }
-
-function solicitarCredito() {}
 
 function calcularDisponible(ingresos, egresos) {
   let resultado = ingresos - egresos;
@@ -321,4 +308,79 @@ function aprobarCredito(capacidadPago, cuotaMensual) {
   } else {
     return false;
   }
+}
+
+function solicitarCredito() {
+  let cliente = clienteSeleccionado;
+  let credito = {
+    cedula: cliente.cedula,
+    nombre: cliente.nombre,
+    apellido: cliente.apellido,
+    correo: cliente.correo,
+    monto: montoCalculado,
+    tasa: tasaInteres,
+    plazo: plazoCalculado,
+    cuota: cuotaCalculada,
+  };
+
+  creditos.push(credito);
+}
+
+function buscarCreditos(cedula) {
+  let creditosEncontrados = [];
+
+  for (let indice = 0; indice < creditos.length; indice++) {
+    let creditoActual = creditos[indice];
+
+    if (creditoActual.cedula === cedula) {
+      creditosEncontrados.push(creditoActual);
+    }
+  }
+
+  return creditosEncontrados;
+}
+
+function pintarCreditos(creditos) {
+  let tablaCreditos = recuperarElemento("tablaCreditos");
+  let contenedor = "";
+
+  if (creditos.length === 0) {
+    tablaCreditos.innerHTML = `
+      <tr>
+        <td colspan="8">No existen créditos registrados.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  for (let indice = 0; indice < creditos.length; indice++) {
+    let creditoActual = creditos[indice];
+    contenedor += `
+      <tr>
+        <td>${creditoActual.cedula}</td>
+        <td>${creditoActual.nombre}</td>
+        <td>${creditoActual.apellido}</td>
+        <td>${creditoActual.correo}</td>
+        <td>$ ${formatearDinero(creditoActual.monto)}</td>
+        <td>${creditoActual.tasa}%</td>
+        <td>${creditoActual.plazo} años</td>
+        <td>$ ${formatearDinero(creditoActual.cuota)}</td>
+      </tr>
+    `;
+  }
+
+  tablaCreditos.innerHTML = contenedor;
+}
+
+function buscarCreditosCliente() {
+  let cmpCedula = recuperarTexto("buscarCedulaListado").trim();
+
+  if (cmpCedula === "") {
+    pintarCreditos([]);
+    return;
+  }
+
+  let creditosCliente = buscarCreditos(cmpCedula);
+
+  pintarCreditos(creditosCliente);
 }
