@@ -16,6 +16,7 @@
   <button onclick="mostrarSeccion('clientes')">Clientes</button>
   <button onclick="mostrarSeccion('credito')">Créditos</button>
   <button onclick="mostrarSeccion('listaCreditos')">Creditos registrados</button>
+  <button onclick="mostrarSeccion('contacto')">Contacto</button>
 </nav>
  
 <section id="parametros">
@@ -111,6 +112,27 @@
          <td colspan="8">Busca el cliente o presiona ver todo para ver creditos existentes</td>
         </tr>
         
+    </tbody>
+  
+  </table>
+</section>
+<section id="contacto"> 
+  <input type="text" placeholder="Ingresa el numero de cedula">
+  <button>Buscar</button>
+  <table>
+    <thead>
+      <tr>
+        <th>Cédula</th>
+        <th>Nombre</th>
+        <th>Contacto</th>
+      </tr>
+    </thead>
+    <tbody id="tablaContacto">
+      <tr>
+        <td>12313123113</td>
+        <td>Scarlett</td>
+        <td>09886786788</td>
+      </tr>
     </tbody>
   </table>
 </section>
