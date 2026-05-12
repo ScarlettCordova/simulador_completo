@@ -12,7 +12,6 @@ function ocultarSecciones() {
   let seccion1 = recuperarElemento("clientes").classList.remove("activa");
   let seccion2 = recuperarElemento("parametros").classList.remove("activa");
   let seccion3 = recuperarElemento("credito").classList.remove("activa");
-  let seccion4 = recuperarElemento("contacto").classList.remove("activa");
   let seccion5 = recuperarElemento("listaCreditos").classList.remove("activa");
 }
 
