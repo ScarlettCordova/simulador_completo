@@ -43,10 +43,16 @@ function guardarTasa() {
   }
 }
 
-function guardarMontoMaximo(){
-  let valor=recuperarFloat("montoMaximo");
-  if (valor>5000){
-    mostrarTexto("mensajeMonto", "Ingresa un monto válido" )
+function registroMontoMaximo(){
+  let monto = recuperarInt("montoMaximo");
+  if (monto >= 1000 && monto <= 5000) {
+    mostrarTexto(
+      "mensajeMonto",
+      "Monto registrado",
+    );
+    montoMaximo = monto;
+  } else {
+    mostrarTexto("mensajeMonto", "Error al configurar el Monto");
   }
 }
 
@@ -249,6 +255,19 @@ function calcularCredito() {
     resultadoCredito.innerHTML = contenedor;
     return;
   }
+
+if (montoCredito > montoMaximo) {
+  contenedor = `
+    <h3>Monto no permitido</h3>
+    <p>El monto solicitado supera el monto máximo permitido.</p>
+  `;
+
+  resultadoCredito.innerHTML = contenedor;
+
+  recuperarElemento("montoCredito").value = "";
+
+  return;
+}
 
   if (isNaN(plazoCredito) || plazoCredito <= 0) {
     contenedor = `
