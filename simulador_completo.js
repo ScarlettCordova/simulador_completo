@@ -45,7 +45,7 @@ function guardarTasa() {
 
 function registroMontoMaximo(){
   let monto = recuperarInt("montoMaximo");
-  if (monto >= 1000 && monto <= 5000) {
+  if (monto >= 1000 && monto <= 8000) {
     mostrarTexto(
       "mensajeMonto",
       "Monto registrado",
@@ -426,6 +426,20 @@ function buscarCreditosCliente() {
   let creditosCliente = buscarCreditos(cmpCedula);
 
   pintarCreditos(creditosCliente);
+}
+
+function mostrarCreditosVIP() {
+  let creditosVIP = [];
+
+  for (let i = 0; i < creditos.length; i++) {
+    let creditoActual = creditos[i];
+
+    if (creditoActual.monto > 5000) {
+      creditosVIP.push(creditoActual);
+    }
+  }
+
+  pintarCreditos(creditosVIP);
 }
 
 function pintarContactos(listaContactos){
