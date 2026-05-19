@@ -16,7 +16,12 @@
   <button onclick="mostrarSeccion('clientes')">Clientes</button>
   <button onclick="mostrarSeccion('credito')">Créditos</button>
   <button onclick="mostrarSeccion('listaCreditos')">Creditos registrados</button>
+<<<<<<< HEAD
   <button onclick="mostrarSeccion('contacto')">Contacto</button>
+=======
+  <button onclick="mostrarSeccion('contactos')">Contactos</button>
+  <button onclick="mostrarSeccion('acercaDe')">Acerca de</button>
+>>>>>>> main
 </nav>
  
 <section id="parametros">
@@ -30,6 +35,11 @@
   <button onclick="guardarTasa()">Guardar tasa</button>
  
   <p id="mensajeTasa"></p>
+
+  <label>Monto Máximo:</label>
+  <input type="number" id="montoMaximo" value="5000">
+  <button onclick="registroMontoMáximo()">Registro de Monto Máximo</button>
+  <p id="mensajeMonto"></p>
 </section>
  
 <section id="clientes">
@@ -41,6 +51,7 @@
   <input type="number" id="ingresos" placeholder="Ingresos">
   <input type="number" id="egresos" placeholder="Egresos">
   <input type="text" id="correo" placeholder="Correo Electrónico">
+  <input type="text" id="numero" placeholder="Teléfono">
  
   <br>
  
@@ -54,6 +65,7 @@
         <th>Nombre</th>
         <th>Apellido</th>
         <th>Correo</th>
+        <th>Teléfono</th>
         <th>Ingresos</th>
         <th>Egresos</th>
         <th>Acciones</th>
@@ -133,6 +145,48 @@
         <td>Scarlett</td>
         <td>09886786788</td>
       </tr>
+    </tbody>
+  </table>
+</section>
+<section id="contactos">
+  <h2>CONTACTOS</h2>
+  <input type="text" id="buscarContactos">
+  <button onclick="buscarContactos('nombre')">Buscar por Nombre</button>
+  <button onclick="buscarContactos('numero')">Buscar por Número</button>
+  <button onclick="ordenarContactos()">Ordenar por nombre</button>
+  <button onclick="pintarContactos(listaContactos)">Mostrar Todo</button>
+  <table>
+    <thead>
+      <th>Nombre</th>
+      <th>Número</th>
+    </thead>
+    <tbody id="tablaContactos">
+
+    </tbody>
+  </table>
+  <p>Desarrolado por:Scarlett Córdova</p>
+</section>
+
+<section id="acercaDe">
+  <h2>Información del desarrollador del sistema</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre y Apellido</th>
+        <th>Redes Sociales</th>
+        <th>Teléfono</th>
+        <th>Correo</th>
+      </tr>
+    </thead>
+    <tbody>
+       <tr>
+        <td>Scarlett Córdova</td>
+        <td>lett_cxr</td>
+        <td>0983782562</td>
+        <td>scarargecorb@gmail.com</td>
+        </tr>
+        
     </tbody>
   </table>
 </section>

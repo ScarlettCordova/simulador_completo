@@ -1,5 +1,9 @@
 let clientes = [];
 let creditos = [];
+let listaContactos=[
+  {nombre:"Lionel",numero:"9089070090"},
+  {nombre:"Ana",numero:"333333"},
+  {nombre:"Jorge",numero:"77777777"}]
 
 let tasaInteres = 15;
 let clienteSeleccionado = null;
@@ -7,18 +11,23 @@ let cuotaCalculada = 0;
 let montoCalculado = 0;
 let plazoCalculado = 0;
 let creditoAprobado = false;
+let montoMaximo=5000;
 
 function ocultarSecciones() {
   let seccion1 = recuperarElemento("clientes").classList.remove("activa");
   let seccion2 = recuperarElemento("parametros").classList.remove("activa");
   let seccion3 = recuperarElemento("credito").classList.remove("activa");
-  let seccion4 = recuperarElemento("contacto").classList.remove("activa");
-  let seccion5 = recuperarElemento("listaCreditos").classList.remove("activa");
+  let seccion4 = recuperarElemento("listaCreditos").classList.remove("activa");
+  let seccion5 = recuperarElemento("contactos").classList.remove("activa");
 }
 
 function mostrarSeccion(id) {
   ocultarSecciones();
   let seccion1 = document.getElementById(id).classList.add("activa");
+
+  if(id=="contactos"){
+    pintarContactos(listaContactos)
+  }
 }
 
 function guardarTasa() {
@@ -34,6 +43,13 @@ function guardarTasa() {
   }
 }
 
+function guardarMontoMaximo(){
+  let valor=recuperarFloat("montoMaximo");
+  if (valor>5000){
+    mostrarTexto("mensajeMonto", "Ingresa un monto válido" )
+  }
+}
+
 function guardarCliente() {
   let cmpCedula = recuperarTexto("cedula");
   let cmpNombre = recuperarTexto("nombre");
@@ -41,6 +57,7 @@ function guardarCliente() {
   let cmpIngresos = recuperarFloat("ingresos");
   let cmpEgresos = recuperarFloat("egresos");
   let cmpCorreo = recuperarTexto("correo");
+  let cmpNumero= recuperarTexto("numero")
 
   if (clienteSeleccionado !== null) {
     clienteSeleccionado.nombre = cmpNombre;
@@ -48,6 +65,8 @@ function guardarCliente() {
     clienteSeleccionado.ingresos = cmpIngresos;
     clienteSeleccionado.correo = cmpCorreo;
     clienteSeleccionado.egresos = cmpEgresos;
+    clienteSeleccionado.numero=cmpNumero;
+
 
     clienteSeleccionado = null;
     console.log("Cliente actualizado");
@@ -70,6 +89,7 @@ function guardarCliente() {
     correo: cmpCorreo,
     ingresos: cmpIngresos,
     egresos: cmpEgresos,
+    numero: cmpNumero
   };
 
   clientes.push(cliente);
@@ -88,6 +108,7 @@ function pintarCliente() {
                     <td>${clientes[indice].nombre}</td>
                     <td>${clientes[indice].apellido}</td>
                     <td>${clientes[indice].correo}</td>
+                    <td>${clientes[indice].numero}</td>
                     <td>${clientes[indice].ingresos}</td>
                     <td>${clientes[indice].egresos}</td>
                     <td>
@@ -124,8 +145,10 @@ function seleccionarCliente(cedula) {
     mostrarTextoEnCaja("nombre", clienteSeleccionado.nombre);
     mostrarTextoEnCaja("apellido", clienteSeleccionado.apellido);
     mostrarTextoEnCaja("correo", clienteSeleccionado.correo);
+    mostrarTextoEnCaja("numero", clienteSeleccionado.numero)
     mostrarTextoEnCaja("ingresos", clienteSeleccionado.ingresos);
     mostrarTextoEnCaja("egresos", clienteSeleccionado.egresos);
+
   }
 }
 
@@ -158,6 +181,7 @@ function limpiar() {
   recuperarElemento("correo").value = "";
   recuperarElemento("ingresos").value = "";
   recuperarElemento("egresos").value = "";
+  recuperarElemento("numero").value = "";
 }
 
 function buscarClienteCredito() {
@@ -384,3 +408,54 @@ function buscarCreditosCliente() {
 
   pintarCreditos(creditosCliente);
 }
+
+function pintarContactos(listaContactos){
+  let tabla=recuperarElemento("tablaContactos");
+  let contenedor = "";
+  for(let i=0;i<listaContactos.length;i++){
+    let contacto=listaContactos[i];
+    contenedor+=`
+      <tr>
+        <td>${contacto.nombre}</td>
+        <td>${contacto.numero}</td>
+      </tr>
+    `
+  }
+  tabla.innerHTML=contenedor
+}
+
+function buscarContactos(filtro){
+  let cmpFiltro=recuperarTexto("buscarContactos")
+  let filtroContactos=[]
+  if(filtro=="nombre"){
+    for(let i=0; i<listaContactos.length;i++){
+      let contacto=listaContactos[i]
+      if(contacto.nombre==cmpFiltro){
+        filtroContactos.push(contacto)
+      }
+    }
+    pintarContactos(filtroContactos)
+  }
+  
+  if(filtro=="numero"){
+    for(let i=0; i<listaContactos.length;i++){
+      let contacto=listaContactos[i]
+      if(contacto.numero==cmpFiltro){
+        filtroContactos.push(contacto)
+      }
+    }
+    pintarContactos(filtroContactos)
+  }
+}
+
+function ordenarContactos(){
+  let contactosOrdenados=[]
+
+  contactosOrdenados=listaContactos.slice().sort(  //compara mediante(a,b) cual es menor y cual es mayor
+    (a,b)=>a.nombre.localeCompare(b.nombre)
+  )
+  pintarContactos(contactosOrdenados)
+}
+
+//push agrega al final
+//unshift agrega al inicio
